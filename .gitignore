@@ -1,0 +1,8 @@
+/.idea
+/node_modules
+/gpg_keys.pri
+/gpg_keys.pub
+
+### Only for @types/node
+/package-lock.json
+/package.json

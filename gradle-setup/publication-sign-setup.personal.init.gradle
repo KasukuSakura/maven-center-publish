@@ -1,0 +1,34 @@
+allprojects {
+
+    pluginManager.withPlugin('maven-publish') {
+        repositories {
+            try {
+                property('sonatype.user')
+                property('sonatype.key')
+
+                maven { repo ->
+                    repo.name = "MavenCentral"
+
+                    repo.setUrl('https://s01.oss.sonatype.org/service/local/staging/deploy/maven2')
+
+                    repo.credentials {
+                        username(property('sonatype.user'))
+                        password(property('sonatype.key'))
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+        }
+
+    }
+
+    if (project == rootProject) {
+        rootProject.pluginManager.withPlugin('io.github.karlatemp.publication-sign') {
+            rootProject.publicationSign {
+                setupWorkflow { workflow ->
+                    workflow.fastSetup("apjer0o343dfjsaou3oi4/asxc33fdwsd", "apjer0o343dfjsaou3oi4/psao3w4fgf")
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "scm": "https://github.com/Karlatemp/UnsafeAccessor",
+  "license": {
+    "name": "MIT License",
+    "url": "https://spdx.org/licenses/MIT.html"
+  },
+  "devs": [
+    ///:: [ <ID>, <Name>, <E-Mail> ]
+    [
+      "Karlatemp",
+      "Karlatemp",
+      "kar@kasukusakura.com"
+    ]
+  ]
+}

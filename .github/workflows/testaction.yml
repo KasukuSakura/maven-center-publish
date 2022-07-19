@@ -1,0 +1,28 @@
+name: "TestAction"
+on: [ push, pull_request ]
+jobs:
+  test:
+    name: Test actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkouts@v3
+        with:
+          path: acts
+
+      - uses: ./acts
+      - name: Setup JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Chmod
+        run: chmod +x acts/testproject/gradlew
+
+      - name: Build Test Project
+        run: ./gradlew signAllPublications --info
+        working-directory: acts/testproject
+
+      - name: Verify
+        run: node verify.js
+        working-directory: acts/testproject

@@ -1,0 +1,9 @@
+name: 'Java Cross Native Compile Setup'
+description: 'Setup java cross native compile'
+inputs:
+  credential:
+    description: 'Who to greet'
+    required: true
+runs:
+  using: 'node16'
+  main: 'index.js'

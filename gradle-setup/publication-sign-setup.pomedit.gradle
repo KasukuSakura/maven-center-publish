@@ -1,0 +1,72 @@
+import com.google.gson.JsonParser
+
+import java.nio.file.Files
+
+initscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.code.gson:gson:2.9.0'
+    }
+}
+
+allprojects {
+    pluginManager.withPlugin('maven-publish') {
+        File projFile0
+        Project crtProject = project
+        do {
+            projFile0 = project.file("project.json5")
+            if (!projFile0.isFile()) {
+                projFile0 = project.file("project.json5")
+            }
+            if (projFile0.isFile()) break
+            crtProject = crtProject.parent
+        } while (crtProject != rootProject)
+        if (projFile0.isFile()) {
+            def settings = Files.readString(projFile0.toPath())
+            settings = settings.replaceAll("///::.+\\n", "")
+
+            def rsp = JsonParser.parseString(settings).getAsJsonObject()
+            def scm000 = rsp.getAsJsonPrimitive("scm").getAsString()
+            def license000 = rsp.getAsJsonObject("license")
+            def devs000 = rsp.getAsJsonArray("devs")
+
+            publishing {
+                publications { pc ->
+                    pc.all { publication ->
+                        if (publication instanceof MavenPublication) {
+
+                            publication.pom { pom ->
+                                pom.url.set(scm000)
+
+                                pom.scm {
+                                    url.set(scm000)
+                                    connection.set('scm:' + scm000 + '.git')
+                                    developerConnection.set('scm:' + scm000 + '.git')
+                                }
+
+                                pom.licenses {
+                                    license {
+                                        name.set(license000.getAsJsonPrimitive("name").getAsString())
+                                        url.set(license000.getAsJsonPrimitive("url").getAsString())
+                                    }
+                                }
+
+                                pom.developers {
+                                    devs000.each { dev111 ->
+                                        developer {
+                                            id.set(dev111.get(0).getAsJsonPrimitive().getAsString())
+                                            name.set(dev111.get(1).getAsJsonPrimitive().getAsString())
+                                            email.set(dev111.get(2).getAsJsonPrimitive().getAsString())
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+allprojects {
+
+    pluginManager.withPlugin('maven-publish') {
+        repositories {
+            try {
+                maven { repo ->
+                    repo.name = "MavenCentral"
+
+                    repo.setUrl(placeholder('remoteServer'))
+
+                    repo.credentials {
+                        username(placeholder('username'))
+                        password(placeholder('password'))
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+
+    if (project == rootProject) {
+        rootProject.pluginManager.withPlugin('io.github.karlatemp.publication-sign') {
+            rootProject.publicationSign {
+                setupWorkflow { workflow ->
+                    workflow.fastSetup(placeholder('public-key'), placeholder('private-key'))
+                }
+            }
+        }
+    }
+}
