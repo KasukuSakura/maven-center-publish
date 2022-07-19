@@ -8,12 +8,18 @@ jobs:
       - uses: actions/checkout@v3
         with:
           path: acts
+      - name: Dump test_credential.json
+        id: test_credential
+        run: |
+          content=`cat acts/test_credential.json`
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=test_credential::$content"
 
       - uses: ./acts
-        env:
-          MCP_TEST_USE_TEST_C: 1
         with:
-          credential: "1"
+          credential: ${{ steps.set_var.test_credential.test_credential }}
       - name: Setup JDK 11
         uses: actions/setup-java@v2
         with:
