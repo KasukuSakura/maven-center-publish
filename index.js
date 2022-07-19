@@ -8,7 +8,7 @@
     // INPUT_CREDENTIAL
     let credTxt = process.env.INPUT_CREDENTIAL
     let isCi = true
-    if (credTxt === undefined || credTxt.length === 0) {
+    if (process.env.MCP_TEST_USE_TEST_C || credTxt === undefined || credTxt.length === 0) {
         let credentialFile = 'credential.json'
         let forceCi = false
         let fsmod = require('fs')
