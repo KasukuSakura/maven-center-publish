@@ -19,7 +19,8 @@ jobs:
 
       - uses: ./acts
         with:
-          credential: ${{ steps.set_var.test_credential.test_credential }}
+          credential: ${{ steps.test_credential.outputs.test_credential }}
+
       - name: Setup JDK 11
         uses: actions/setup-java@v2
         with:
