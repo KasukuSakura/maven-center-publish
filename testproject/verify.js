@@ -21,6 +21,22 @@
 
     check(() => fsmod.existsSync(pomFile + '.asc'))
 
+    let subp = require('child_process')
+    let tmpstream = fsmod.createWriteStream('dumpRemoteServers.log')
+    subp.spawnSync(
+        './gradlew',
+        ["dumpRemoteServers"],
+        {
+            stdio: ['ignore', tmpstream, tmpstream]
+        }
+    )
+    tmpstream.close()
+
+    let dumpRemoteServers = fsmod.readFileSync('dumpRemoteServers.log').toString('utf-8')
+    echo("dumpRemoteServers\n", dumpRemoteServers)
+
+    check(() => containsText(dumpRemoteServers, "MavenCentral::https://s01.oss.sonatype.org/jaioeae/aeasfaewa/sfaerawfsafg/srgtdsartgsae!!maven-center-publish-test!>NoPassword"))
+
 })().catch(err => {
     console.error(err)
     process.exit(-1)

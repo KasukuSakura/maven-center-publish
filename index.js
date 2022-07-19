@@ -3,7 +3,7 @@
     let path_module = require('path')
 
     let kitself = require('./kit')
-    let {exec, echo} = kitself
+    let {echo} = kitself
 
     // INPUT_CREDENTIAL
     let credTxt = process.env.INPUT_CREDENTIAL
