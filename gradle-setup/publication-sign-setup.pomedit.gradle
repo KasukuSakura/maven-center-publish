@@ -15,14 +15,16 @@ allprojects {
     pluginManager.withPlugin('maven-publish') {
         File projFile0
         Project crtProject = project
+        Project lastProject
         do {
+            lastProject = crtProject
             projFile0 = project.file("project.json5")
             if (!projFile0.isFile()) {
                 projFile0 = project.file("project.json5")
             }
             if (projFile0.isFile()) break
             crtProject = crtProject.parent
-        } while (crtProject != rootProject)
+        } while (crtProject != lastProject && crtProject != null)
         if (projFile0.isFile()) {
             def settings = Files.readString(projFile0.toPath())
             settings = settings.replaceAll("///::.+\\n", "")

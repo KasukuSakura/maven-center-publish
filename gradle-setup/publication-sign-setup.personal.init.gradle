@@ -1,25 +1,26 @@
 allprojects {
 
     pluginManager.withPlugin('maven-publish') {
-        repositories {
-            try {
-                property('sonatype.user')
-                property('sonatype.key')
+        publishing {
+            repositories {
+                try {
+                    property('sonatype.user')
+                    property('sonatype.key')
 
-                maven { repo ->
-                    repo.name = "MavenCentral"
+                    maven { repo ->
+                        repo.name = "MavenCentral"
 
-                    repo.setUrl('https://s01.oss.sonatype.org/service/local/staging/deploy/maven2')
+                        repo.setUrl('https://s01.oss.sonatype.org/service/local/staging/deploy/maven2')
 
-                    repo.credentials {
-                        username(property('sonatype.user'))
-                        password(property('sonatype.key'))
+                        repo.credentials {
+                            username(property('sonatype.user'))
+                            password(property('sonatype.key'))
+                        }
                     }
+                } catch (Exception ignored) {
                 }
-            } catch (Exception ignored) {
             }
         }
-
     }
 
     if (project == rootProject) {
