@@ -59,6 +59,10 @@ See more in [`PublicationSign`](https://github.com/Karlatemp/PublicationSign)
 
 You need add a file named `project.json5` in your root project with content (without comments)
 
+> You don't need to set up `PublicationSign` after applied this action
+>
+> Example project / Template project: [TestProject](./testproject)
+
 ```json5
 {
   ///:: Your repository location
