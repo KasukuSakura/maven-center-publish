@@ -56,7 +56,7 @@
     let dumpRemoteServers = fsmod.readFileSync('dumpRemoteServers.log').toString('utf-8')
     echo("dumpRemoteServers\n", dumpRemoteServers)
 
-    check(() => containsText(dumpRemoteServers, "MavenCentral::https://s01.oss.sonatype.org/jaioeae/aeasfaewa/sfaerawfsafg/srgtdsartgsae!!maven-center-publish-test!>NoPassword"))
+    check(() => containsText(dumpRemoteServers, "MavenCentral::https://s01.oss.sonatype.org/jaioeae/aeasfaewa/sfaerawfsafg/srgtdsartgsae!!maven-center-publish-test--user15481!>maven-center-publish-test----asdffawe"))
 
 })().catch(err => {
     console.error(err)

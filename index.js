@@ -56,8 +56,8 @@
         return sub
     })
 
-    echo(template)
     if (!isCi) {
+        echo(template)
         await fsmod.promises.writeFile('publication-sign-setup.ci.generated.init.gradle', template)
     } else {
         let usrHome = process.env.GRADLE_USER_HOME
@@ -78,6 +78,12 @@
             path_module.join(kitself.jncc_module_dir, 'gradle-setup', 'publication-sign-setup.pomedit.gradle'),
             path_module.join(gradleInitd, 'publication-sign-setup.pomedit.gradle'),
         )
+
+        // Security
+        kitself.protect_value_ci(jsox.user)
+        kitself.protect_value_ci(jsox.passwd)
+        kitself.protect_value_ci(jsox.keys[0])
+        kitself.protect_value_ci(jsox.keys[1])
     }
 })().catch(err => {
     console.error(err)

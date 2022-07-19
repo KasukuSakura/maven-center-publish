@@ -85,3 +85,23 @@ module.exports.containsText = function (thiz, msg) {
     }
     return thiz.indexOf(msg) !== -1
 }
+
+module.exports.protect_value_ci = function (value) {
+    // noinspection RegExpRedundantEscape
+    value = String(value).trim().replace(/\%/g, '%25')
+
+    function hide_mask(vx) {
+        vx = vx.trim()
+            .replace(/\n/g, '%0A')
+            .replace(/\r/g, '%0D')
+        console.log("::add-mask::" + vx)
+    }
+
+    hide_mask(value)
+    if (value.indexOf('\r') !== -1 || value.indexOf('\n') !== -1) {
+        hide_mask(value.replace(/\r/g, '\n'))
+        hide_mask(value.replace(/\n/g, '\r'))
+        hide_mask(value.replace(/\r\n/g, '\n'))
+        hide_mask(value.replace(/\r\n/g, '\r'))
+    }
+}
