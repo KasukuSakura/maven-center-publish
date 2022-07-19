@@ -23,13 +23,34 @@
 
     let subp = require('child_process')
     let tmpstream = fsmod.createWriteStream('dumpRemoteServers.log')
-    subp.spawnSync(
-        './gradlew',
-        ["dumpRemoteServers"],
-        {
-            stdio: ['ignore', tmpstream, tmpstream]
+    await (new Promise((resolve, reject) => {
+        try {
+            let proc = subp.spawn(
+                './gradlew',
+                ["dumpRemoteServers"],
+                {
+                    stdio: ['ignore', "pipe", 'pipe']
+                }
+            )
+            proc.stdout.on('data', (data) => {
+                tmpstream.write(data)
+            });
+
+            proc.stderr.on('data', (data) => {
+                tmpstream.write(data)
+            });
+
+            proc.on('close', (code) => {
+                if (code !== 0) {
+                    reject(new Error("Code != 0: " + code))
+                } else {
+                    resolve()
+                }
+            });
+        } catch (e) {
+            reject(e)
         }
-    )
+    }))
     tmpstream.close()
 
     let dumpRemoteServers = fsmod.readFileSync('dumpRemoteServers.log').toString('utf-8')
