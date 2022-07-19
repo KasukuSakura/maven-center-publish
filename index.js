@@ -40,7 +40,7 @@
         password: jsox.passwd,
         username: jsox.user,
         'public-key': pub_key_loc,
-        'private-key': pub_key_loc,
+        'private-key': pri_key_loc,
     }
     let template = (await fsmod.promises.readFile(path_module.join(
         kitself.jncc_module_dir, 'gradle-setup', 'publication-sign-setup.ci.gradle'
