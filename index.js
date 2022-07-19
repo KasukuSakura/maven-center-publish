@@ -9,13 +9,21 @@
     let credTxt = process.env.INPUT_CREDENTIAL
     let isCi = true
     if (credTxt === undefined || credTxt.length === 0) {
+        let credentialFile = 'credential.json'
+        let forceCi = false
         let fsmod = require('fs')
-        if (!fsmod.existsSync('credential.json')) {
+
+        if (process.env.MCP_TEST_USE_TEST_C) {
+            forceCi = true
+            credentialFile = path_module.join(kitself.jncc_module_dir, 'test_credential.json')
+        }
+
+        if (!fsmod.existsSync(credentialFile)) {
             echo("No credential found.")
             process.exit(487)
         }
-        credTxt = (await fsmod.promises.readFile('credential.json')).toString('utf-8')
-        isCi = false
+        credTxt = (await fsmod.promises.readFile(credentialFile)).toString('utf-8')
+        isCi = forceCi
     }
 
     let jsox = JSON.parse(credTxt)
