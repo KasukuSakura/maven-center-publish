@@ -25,11 +25,6 @@ allprojects {
             if (projFile0.isFile()) break
             crtProject = crtProject.parent
         } while (crtProject != lastProject && crtProject != null)
-        project.extensions.add('ps_stubjavadoc', project.provider {
-            def jdoc = tasks.maybeCreate('stubJavadoc', Jar.class)
-            jdoc.archiveClassifier.set('javadoc')
-            return jdoc
-        })
         if (projFile0.isFile()) {
             def settings = Files.readString(projFile0.toPath())
             settings = settings.replaceAll("///::.+\\n", "")
