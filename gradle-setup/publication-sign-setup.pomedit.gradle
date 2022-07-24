@@ -18,9 +18,9 @@ allprojects {
         Project lastProject
         do {
             lastProject = crtProject
-            projFile0 = project.file("project.json5")
+            projFile0 = crtProject.file("project.json5")
             if (!projFile0.isFile()) {
-                projFile0 = project.file("project.json5")
+                projFile0 = crtProject.file("project.json5")
             }
             if (projFile0.isFile()) break
             crtProject = crtProject.parent
